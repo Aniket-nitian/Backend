@@ -2,8 +2,9 @@
   "name": "backend_",
   "version": "1.0.0",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "start": "node index.js",
+    "dev": "nodemon src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Aniket chauhan",
@@ -12,5 +13,8 @@
   "dependencies": {
     "dotenv": "^16.4.7",
     "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
   }
 }
