@@ -10,7 +10,15 @@ dotenv.config({
 });
 
 //? datbase connection method_2
-connectDB();
+connectDB()
+  .then(() => {
+    app.listen(process.env.PORT || 1000, () => {
+      console.log(`Server is running at port:${process.env.PORT}`);
+    });
+  })
+  .catch(err => {
+    console.log(err);
+  });
 
 //? datbase connection method_1.
 //!function connectDB() {}
