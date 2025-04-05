@@ -1,9 +1,10 @@
 import mongoose from "mongoose";
 //require("dotenv").config();
 import dotenv from "dotenv";
-import { DB_NAME } from "./constants.js";
+//import { DB_NAME } from "./constants.js";
 import express from "express";
 import connectDB from "./db/index.js";
+import app from "./app.js";
 
 dotenv.config({
   path: "./env",
@@ -16,7 +17,7 @@ connectDB()
       console.log(`Server is running at port:${process.env.PORT}`);
     });
   })
-  .catch(err => {
+  .catch((err) => {
     console.log(err);
   });
 
