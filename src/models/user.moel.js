@@ -52,7 +52,7 @@ const userSchema = new Schema(
 // pre is a Middleware hook that runs before saving the document
 //bcrypt hash is a function that takes a string and a number of rounds and returns a hashed string
 
-userSchema.pre("save", async (next) => {
+userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
     return next();
   }
