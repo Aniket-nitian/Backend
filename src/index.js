@@ -1,13 +1,13 @@
-import mongoose from "mongoose";
+//import mongoose from "mongoose";
 //require("dotenv").config();
 import dotenv from "dotenv";
 //import { DB_NAME } from "./constants.js";
-import express from "express";
+//import express from "express";
 import connectDB from "./db/index.js";
 import app from "./app.js";
 
 dotenv.config({
-  path: "./env",
+  path: "./.env",
 });
 
 //? datbase connection method_2

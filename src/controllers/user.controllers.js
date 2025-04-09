@@ -1,4 +1,4 @@
-import { response } from "express";
+//import { response } from "express";
 import asyncHandler from "../utils/asyncHandler.js";
 import ApiError from "../utils/ApiError.js";
 import { User } from "../models/user.moel.js";
@@ -8,7 +8,7 @@ import ApiResponse from "../utils/ApiResponse.js";
 const registerUser = asyncHandler(async (req, res) => {
   //? get user details from frontend
   const { fullname, email, username, password } = req.body;
-  console.log(email);
+  // console.log(email);
 
   //? validation - not empty
   //! individual validation
@@ -24,7 +24,7 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   //? check if user exists
-  const existedUsed = User.findOne({ $or: [{ email }, { username }] });
+  const existedUsed = await User.findOne({ $or: [{ email }, { username }] });
 
   if (existedUsed) {
     throw new ApiError(409, "User already exists");
@@ -33,7 +33,18 @@ const registerUser = asyncHandler(async (req, res) => {
   //? check for images, avatar
   //multer give .files object
   const avatarLocalPath = req.files?.avatar[0]?.path;
-  const CoverImagesLocalPath = req.files?.images[0]?.path;
+  const CoverImagesLocalPath = req.files?.CoverImages[0]?.path;
+
+  //?OR
+  // let CoverImagesLocalPath;
+  // if (
+  //   req.files &&
+  //   Array.isArray(req.files.CoverImages) &&
+  //   req.files.CoverImages.length > 0
+  // ) {
+  //   CoverImagesLocalPath = req.files.CoverImages[0].path;
+  // }
+
   // check if images are uploaded
   if (!avatarLocalPath) {
     throw new ApiError(400, "Please upload avatar");
@@ -55,13 +66,13 @@ const registerUser = asyncHandler(async (req, res) => {
     username: username.toLowerCase(),
     password,
     avatar: avatar.url,
-    CoverImages: CoverImages?.url || "",
+    CoverImages: CoverImages?.url,
   });
 
   //? remove password and refresh token field from response
-  const createUser = await user
-    .findById(user._id)
-    .select("-password -refreshToken");
+  const createUser = await User.findById(user._id).select(
+    "-password -refreshToken"
+  );
 
   if (!createUser) {
     throw new ApiError(500, "Error creating user");
