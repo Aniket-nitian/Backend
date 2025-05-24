@@ -60,13 +60,15 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
+//! Custom hooks/methods
 userSchema.methods.isPasswordCorrect = async function (password) {
-  return await bcrypt.compare(password, this.password);
+  return await bcrypt.compare(password, this.password); //! return true or false
 };
 
 userSchema.methods.generateAccesToken = function () {
   return jwt.sign(
     {
+      //? Payload
       _id: this._id,
       username: this.username,
       email: this.email,
@@ -83,10 +85,10 @@ userSchema.methods.generateRefreshToken = function () {
   return jwt.sign(
     {
       _id: this._id,
-      username: this.username,
-      email: this.email,
-      fullname: this.fullname,
-      avatar: this.avatar,
+      // username: this.username,
+      // email: this.email,
+      // fullname: this.fullname,
+      // avatar: this.avatar,
     },
     process.env.REFRESH_TOKEN_SECRET,
     {
