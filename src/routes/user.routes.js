@@ -21,8 +21,7 @@ router.route("/register").post(
 
 //http://localhost:3000/api/v1/users/login
 router.route("/login").post(loginUser);
-
-//secure routes
+//? secure routes
 router.route("/logout").post(verifyJWT, logoutuser);
 router.route("/refresh-token").post(refreshAccessToken);
 

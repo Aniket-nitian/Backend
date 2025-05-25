@@ -12,3 +12,4 @@ const storage = multer.diskStorage({
 });
 
 export const upload = multer({ storage: storage });
+//! will me imported in user.routes.js as a middleware
