@@ -12,7 +12,10 @@ const generateAccessAndRefreshTokens = async (userId) => {
     const accessToken = user.generateAccesToken();
     const refreshToken = user.generateRefreshToken();
     user.refreshToken = refreshToken;
-    await user.save({ validateBeforeSave: false });
+    await user.save({
+      validateBeforeSave: false,
+    });
+
     return { accessToken, refreshToken };
   } catch (error) {
     throw new ApiError(500, "Error generating tokens");
@@ -114,10 +117,10 @@ const loginUser = asyncHandler(async (req, res) => {
   //? find the user
   //? password check
   //? acces/refresh token
-  //? sen cookie
+  //? send cookie
 
   const { username, password, email } = req.body;
-  if (!username && !email) {
+  if (!username || !email) {
     throw new ApiError(400, "Please provide username or email");
   }
 
@@ -142,7 +145,7 @@ const loginUser = asyncHandler(async (req, res) => {
   );
 
   const options = {
-    httpOnly: true,
+    httpOnly: true, //? now this cookie can only be modified by backend/server
     secure: true,
   };
 
@@ -165,7 +168,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
 const logoutuser = asyncHandler(async (req, res) => {
   await User.findByIdAndUpdate(
-    req.user._id,
+    req.user._id, //? from auth.middleware / verify jwt
     {
       $set: { refreshToken: undefined },
     },
